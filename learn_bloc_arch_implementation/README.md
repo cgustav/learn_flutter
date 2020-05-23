@@ -4,6 +4,12 @@ Implementación del Patrón BloC con buenas prácticas de diseño.
 
 ## Notas
 
+**Estados:** Son las salidas de un BloC y representan una parte del estado de la aplicación. Los componentes de la interfaz de usuario pueden ser notificados de los estados y ser reconstruidos en función del estado actual del BloC.
+
+![](https://i.imgur.com/kxOYGF5.png)
+
+![](https://i.imgur.com/lGWAnOe.png)
+
 **Provider:** Es un patrón de diseño de los lenguajes orientados a objetos. En el caso de flutter, provider se puede aplicar sobre un widget cualquiera, asignándole propiedades o una funcionalidad específica para permitir que los widgets de cualquier nivel en el árbol de widgets pueden acceder a este objeto y sus propiedades, sin acudir directamente a la herencia y evitando así la repetición de código. Por lo tanto Provider ofrece una solución práctica de diseño en aquellos casos donde, debamos compartir información a través de múltiples widgets siguiendo los principios de Inyección de Dependencias (DI).
 
 

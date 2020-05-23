@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:learn_bloc_arch_implementation/counter_bloc.dart';
+import 'package:learn_bloc_arch_implementation/blocs/counter_bloc.dart';
 import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_builder.dart';
 import 'action_button.dart';
 import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_provider.dart';
@@ -50,34 +50,35 @@ class CounterScreenWithGlobalState extends StatelessWidget {
 ///* Altamente recomendado para widgets que no necesiten
 ///gestionar data sensible o que deba ser persistente
 ///en la sesión de usuario.
-class CounterScreenWithLocalState extends StatefulWidget {
+class CounterScreenWithLocalState extends StatelessWidget {
   CounterScreenWithLocalState({Key key}) : super(key: key);
 
-  @override
-  _CounterScreenWithLocalStateState createState() =>
-      _CounterScreenWithLocalStateState();
-}
+//   @override
+//   _CounterScreenWithLocalStateState createState() =>
+//       _CounterScreenWithLocalStateState();
+// }
 
-class _CounterScreenWithLocalStateState
-    extends State<CounterScreenWithLocalState> {
-  CounterBloc _counterBloc;
+// class _CounterScreenWithLocalStateState
+//     extends State<CounterScreenWithLocalState> {
+  // CounterBloc _counterBloc;
 
-  @override
-  void initState() {
-    super.initState();
-    _counterBloc = CounterBloc();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _counterBloc = CounterBloc();
+  // }
 
-  @override
-  void dispose() {
-    _counterBloc.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _counterBloc.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<CounterBloc>(
-      bloc: _counterBloc,
+      // bloc: _counterBloc,
+      builder: (context) => CounterBloc(),
       child: CounterScaffold(
         title: 'Counter - Local State',
       ),

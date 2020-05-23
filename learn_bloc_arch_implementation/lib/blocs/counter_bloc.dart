@@ -1,4 +1,4 @@
-import 'bloc/bloc.dart';
+import 'package:learn_bloc_arch_implementation/bloc/bloc.dart';
 import 'package:learn_bloc_arch_implementation/bloc/transitions.dart';
 
 enum CounterEvent { increment, decrement, reset }

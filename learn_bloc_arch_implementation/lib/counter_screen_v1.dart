@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:learn_bloc_arch_implementation/counter_bloc.dart';
+import 'package:learn_bloc_arch_implementation/blocs/counter_bloc.dart';
 import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_builder.dart';
 import 'action_button.dart';
 
