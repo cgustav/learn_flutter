@@ -1,6 +1,8 @@
-import 'package:learn_bloc_arch_implementation/bloc/bloc_delegate.dart';
-import 'package:learn_bloc_arch_implementation/bloc/transitions.dart';
-import 'package:learn_bloc_arch_implementation/bloc/bloc.dart';
+// import 'package:learn_bloc_arch_implementation/bloc/bloc_delegate.dart';
+// import 'package:learn_bloc_arch_implementation/bloc/transitions.dart';
+// import 'package:learn_bloc_arch_implementation/bloc/bloc.dart';
+
+import 'package:bloc/bloc.dart';
 
 ///Bloc Delegate personalizado
 class MyBlocDelegate extends BlocDelegate {

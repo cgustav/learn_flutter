@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:learn_bloc_arch_implementation/blocs/counter_bloc.dart';
-import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_builder.dart';
+// import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_builder.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'action_button.dart';
 
 class CounterScreenWithLocalState extends StatefulWidget {
@@ -23,7 +24,8 @@ class _CounterScreenWithLocalStateState
 
   @override
   void dispose() {
-    _counterBloc.dispose();
+    // _counterBloc.dispose();
+    _counterBloc.close();
     super.dispose();
   }
 
@@ -57,19 +59,22 @@ class _CounterScreenWithLocalStateState
             ActionButton(
               iconData: Icons.add,
               onPressed: () {
-                _counterBloc.dispatch(CounterEvent.increment);
+                // _counterBloc.dispatch(CounterEvent.increment);
+                _counterBloc.add(CounterEvent.increment);
               },
             ),
             ActionButton(
               iconData: Icons.remove,
               onPressed: () {
-                _counterBloc.dispatch(CounterEvent.decrement);
+                // _counterBloc.dispatch(CounterEvent.decrement);
+                _counterBloc.add(CounterEvent.decrement);
               },
             ),
             ActionButton(
               iconData: Icons.replay,
               onPressed: () {
-                _counterBloc.dispatch(CounterEvent.reset);
+                // _counterBloc.dispatch(CounterEvent.reset);
+                _counterBloc.add(CounterEvent.decrement);
               },
             ),
           ],

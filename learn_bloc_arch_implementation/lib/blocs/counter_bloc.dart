@@ -1,5 +1,9 @@
-import 'package:learn_bloc_arch_implementation/bloc/bloc.dart';
-import 'package:learn_bloc_arch_implementation/bloc/transitions.dart';
+// import 'package:learn_bloc_arch_implementation/bloc/bloc.dart';
+// import 'package:learn_bloc_arch_implementation/bloc/transitions.dart';
+
+// import 'package:bloc/bloc.dart';
+// import 'package:bloc/bloc.dart';
+import 'package:bloc/bloc.dart';
 
 enum CounterEvent { increment, decrement, reset }
 
@@ -12,13 +16,11 @@ class CounterBloc extends Bloc<CounterEvent, int> {
     // // TODO: implement mapEventToState
     // return null;
     if (event == CounterEvent.increment)
-      yield currentState + 1;
-    else if (event == CounterEvent.decrement && currentState > 0)
-      yield currentState - 1;
+      yield state + 1;
+    else if (event == CounterEvent.decrement && state > 0)
+      yield state - 1;
     else if (event == CounterEvent.reset) yield 0;
   }
-
-  //Overrides de Eventos
 
   @override
   void onEvent(CounterEvent event) {

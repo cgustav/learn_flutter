@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:learn_bloc_arch_implementation/blocs/counter_bloc.dart';
-import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_builder.dart';
 import 'action_button.dart';
-import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_provider.dart';
+// import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_builder.dart';
+// import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 ///Pantalla construida a partir de un
 ///statelessWidget que contiene el estado
@@ -78,7 +79,8 @@ class CounterScreenWithLocalState extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<CounterBloc>(
       // bloc: _counterBloc,
-      builder: (context) => CounterBloc(),
+      // builder: (context) => CounterBloc(),
+      create: (context) => CounterBloc(),
       child: CounterScaffold(
         title: 'Counter - Local State',
       ),
@@ -123,19 +125,22 @@ class CounterScaffold extends StatelessWidget {
             ActionButton(
               iconData: Icons.add,
               onPressed: () {
-                _counterBloc.dispatch(CounterEvent.increment);
+                // _counterBloc.dispatch(CounterEvent.increment);
+                _counterBloc.add(CounterEvent.increment);
               },
             ),
             ActionButton(
               iconData: Icons.remove,
               onPressed: () {
-                _counterBloc.dispatch(CounterEvent.decrement);
+                // _counterBloc.dispatch(CounterEvent.decrement);
+                _counterBloc.add(CounterEvent.decrement);
               },
             ),
             ActionButton(
               iconData: Icons.replay,
               onPressed: () {
-                _counterBloc.dispatch(CounterEvent.reset);
+                // _counterBloc.dispatch(CounterEvent.reset);
+                _counterBloc.add(CounterEvent.reset);
               },
             ),
           ],

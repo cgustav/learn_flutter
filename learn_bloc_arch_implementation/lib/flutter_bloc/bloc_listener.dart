@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/widgets.dart';
 import 'package:learn_bloc_arch_implementation/bloc/bloc.dart';
 

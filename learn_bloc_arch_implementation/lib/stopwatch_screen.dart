@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:learn_bloc_arch_implementation/action_button.dart';
 import 'package:learn_bloc_arch_implementation/blocs/stopwatch_bloc.dart';
-import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_provider.dart';
-import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_builder.dart';
-import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_listener.dart';
+// import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_provider.dart';
+// import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_builder.dart';
+// import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_listener.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 // class StopwatchScreenWithLocalState extends StatefulWidget {
 class StopwatchScreenWithLocalState extends StatelessWidget {
@@ -36,7 +37,8 @@ class StopwatchScreenWithLocalState extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       // bloc: _stopwatchBloc,
-      builder: (context) => StopwatchBloc(),
+      // builder: (context) => StopwatchBloc(),
+      create: (context) => StopwatchBloc(),
       child: StopwatchScaffold(title: 'Stopwatch - Local State'),
     );
   }
@@ -69,7 +71,7 @@ class StopwatchScaffold extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: BlocListener<StopwatchEvent, StopwatchState>(
+      body: BlocListener<StopwatchBloc, StopwatchState>(
           bloc: stopwatchBloc,
           listener: (BuildContext context, StopwatchState state) {
             if (state.isSpecial) {
@@ -123,19 +125,23 @@ class StopwatchScaffold extends StatelessWidget {
                         ? ActionButton(
                             iconData: Icons.stop,
                             onPressed: () {
-                              stopwatchBloc.dispatch(StopStopWatch());
+                              // stopwatchBloc.dispatch(StopStopWatch());
+                              stopwatchBloc.add(StopStopWatch());
                             })
                         : ActionButton(
                             iconData: Icons.play_arrow,
                             onPressed: () {
-                              stopwatchBloc.dispatch(StartStopWatch());
+                              // stopwatchBloc.dispatch(StartStopWatch());
+                              stopwatchBloc.add(StartStopWatch());
                             }),
-                    if (!state.isInitial)
-                      ActionButton(
-                          iconData: Icons.replay,
-                          onPressed: () {
-                            stopwatchBloc.dispatch(ResetStopWatch());
-                          })
+                    (!state.isInitial)
+                        ? ActionButton(
+                            iconData: Icons.replay,
+                            onPressed: () {
+                              // stopwatchBloc.dispatch(ResetStopWatch());
+                              stopwatchBloc.add(ResetStopWatch());
+                            })
+                        : Container()
                   ],
                 );
               }),

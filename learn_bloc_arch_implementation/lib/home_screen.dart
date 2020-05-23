@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:learn_bloc_arch_implementation/blocs/counter_bloc.dart';
 import 'package:learn_bloc_arch_implementation/blocs/stopwatch_bloc.dart';
 import 'package:learn_bloc_arch_implementation/counter_screen.dart';
-import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_builder.dart';
-import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_listener.dart';
-import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_listener_tree.dart';
-import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_provider.dart';
 import 'package:learn_bloc_arch_implementation/stopwatch_screen.dart';
+// import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_builder.dart';
+// import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_listener.dart';
+// import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_listener_tree.dart';
+// import 'package:learn_bloc_arch_implementation/flutter_bloc/bloc_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key key}) : super(key: key);
@@ -22,9 +23,16 @@ class HomeScreen extends StatelessWidget {
     final counterBloc = BlocProvider.of<CounterBloc>(context);
     final stopwatchBloc = BlocProvider.of<StopwatchBloc>(context);
 
-    return BlocListenerTree(
-      blocListeners: [
-        BlocListener<CounterEvent, int>(
+    // return BlocListenerTree(
+
+    ///Post Lib Refactor:
+    return MultiBlocListener(
+      // blocListeners: [
+
+      ///Post Lib Refactor:
+
+      listeners: [
+        BlocListener<CounterBloc, int>(
           bloc: counterBloc,
           listener: (BuildContext context, int state) {
             if (state == 10) {
@@ -36,7 +44,7 @@ class HomeScreen extends StatelessWidget {
             }
           },
         ),
-        BlocListener<StopwatchEvent, StopwatchState>(
+        BlocListener<StopwatchBloc, StopwatchState>(
           bloc: stopwatchBloc,
           listener: (BuildContext context, StopwatchState state) {
             if (state.time.inMilliseconds == 10000) if (!Navigator.of(context)
@@ -69,7 +77,8 @@ class HomeScreen extends StatelessWidget {
                     return Text('$state');
                   }),
               onLongPress: () {
-                counterBloc.dispatch(CounterEvent.increment);
+                // counterBloc.dispatch(CounterEvent.increment);
+                counterBloc.add(CounterEvent.increment);
               },
               trailing: Chip(
                 label: Text('Global State'),
@@ -96,9 +105,12 @@ class HomeScreen extends StatelessWidget {
                     return Text('${state.timeFormatted}');
                   }),
               onLongPress: () {
-                (stopwatchBloc.currentState.isRunning)
-                    ? stopwatchBloc.dispatch(StopStopWatch())
-                    : stopwatchBloc.dispatch(StartStopWatch());
+                // (stopwatchBloc.currentState.isRunning)
+                //     ? stopwatchBloc.dispatch(StopStopWatch())
+                //     : stopwatchBloc.dispatch(StartStopWatch());
+                (stopwatchBloc.state.isRunning)
+                    ? stopwatchBloc.add(StopStopWatch())
+                    : stopwatchBloc.add(StartStopWatch());
               },
               trailing: Chip(
                 label: Text('Global State'),

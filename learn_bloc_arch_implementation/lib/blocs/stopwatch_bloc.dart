@@ -1,7 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'dart:async';
-import 'package:learn_bloc_arch_implementation/bloc/bloc.dart';
+// import 'package:learn_bloc_arch_implementation/bloc/bloc.dart';
+
+import 'package:bloc/bloc.dart';
 
 /// Eventos
 /// ---
@@ -115,12 +117,20 @@ class StopwatchBloc extends Bloc<StopwatchEvent, StopwatchState> {
   int _elapsedTimeInMilliseconds = 0;
   StreamSubscription _streamPeriodSubscription;
 
+  // @override
+  // void dispose() {
+  //   _streamPeriodSubscription?.cancel();
+  //   _streamPeriodSubscription = null;
+
+  //   super.dispose();
+  // }
+
+  ///Post Lib Refactor:
   @override
-  void dispose() {
+  Future<void> close() {
     _streamPeriodSubscription?.cancel();
     _streamPeriodSubscription = null;
-
-    super.dispose();
+    return super.close();
   }
 
   @override
@@ -135,7 +145,11 @@ class StopwatchBloc extends Bloc<StopwatchEvent, StopwatchState> {
         _streamPeriodSubscription =
             Stream.periodic(Duration(milliseconds: 10)).listen((_) {
           _elapsedTimeInMilliseconds += 10;
-          dispatch(UpdateStopWatch(
+          // dispatch(UpdateStopWatch(
+          //     Duration(milliseconds: _elapsedTimeInMilliseconds)));
+
+          //Post-Lib refactor:
+          add(UpdateStopWatch(
               Duration(milliseconds: _elapsedTimeInMilliseconds)));
         });
     }
@@ -155,13 +169,19 @@ class StopwatchBloc extends Bloc<StopwatchEvent, StopwatchState> {
       _streamPeriodSubscription.cancel();
       _streamPeriodSubscription = null;
 
-      yield currentState.copyWith(isRunning: false);
+      // yield currentState.copyWith(isRunning: false);
+
+      //Post-Lib refactor:
+      yield state.copyWith(isRunning: false);
     }
     //Reset Stopwatch Event
     // -> Stopwatch with [initial] State
     else if (event is ResetStopWatch) {
       _elapsedTimeInMilliseconds = 0;
-      if (!currentState.isRunning) yield StopwatchState.initial();
+      // if (!currentState.isRunning) yield StopwatchState.initial();
+
+      //Post-Lib refactor:
+      if (!state.isRunning) yield StopwatchState.initial();
     }
   }
 }
