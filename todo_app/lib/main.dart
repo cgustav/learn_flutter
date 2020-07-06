@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     DevToolsStore<AppState> store = DevToolsStore<AppState>(
       appStateReducer,
       initialState: AppState.initialState(),
-      middleware: [appStateMiddleware],
+      middleware: appStateMiddleware(),
     );
 
     return StoreProvider<AppState>(
@@ -97,12 +97,19 @@ class ItemListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: model.items
-          .map((Item item) => ListTile(
-                title: Text(item.body),
-                leading: IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () => model.onRemoveItem(item)),
-              ))
+          .map(
+            (Item item) => ListTile(
+              title: Text(item.body),
+              leading: IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () => model.onRemoveItem(item)),
+              trailing: Checkbox(
+                  value: item.completed,
+                  onChanged: (b) {
+                    model.onCompleted(item);
+                  }),
+            ),
+          )
           .toList(),
     );
   }
@@ -124,12 +131,14 @@ class RemoveItemsButton extends StatelessWidget {
 
 class _ViewModel {
   final List<Item> items;
+  final Function(Item) onCompleted;
   final Function(String) onAddItem;
   final Function(Item) onRemoveItem;
   final Function() onRemoveItems;
 
   _ViewModel({
     this.items,
+    this.onCompleted,
     this.onAddItem,
     this.onRemoveItem,
     this.onRemoveItems,
@@ -146,6 +155,10 @@ class _ViewModel {
 
     _onRemoveItems() {
       store.dispatch(RemoveItemsAction());
+    }
+
+    _onCompleted(Item item) {
+      store.dispatch(ItemCompletedAction(item));
     }
 
     return _ViewModel(
