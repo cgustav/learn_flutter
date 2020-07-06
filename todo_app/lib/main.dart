@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:todo_app/model/model.dart';
 import 'package:redux/redux.dart';
+import 'package:todo_app/redux/middleware.dart';
 import 'package:todo_app/redux/reducers.dart';
 import 'package:todo_app/redux/actions.dart';
+import 'package:flutter_redux_dev_tools/flutter_redux_dev_tools.dart';
+import 'package:redux_dev_tools/redux_dev_tools.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,34 +15,41 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Store
-    // throw UnimplementedError();
-
-    // return MaterialApp(
-    //   title: 'App Name',
-    // );
-    Store<AppState> store =
-        Store<AppState>(appStateReducer, initialState: AppState.initialState());
+    DevToolsStore<AppState> store = DevToolsStore<AppState>(
+      appStateReducer,
+      initialState: AppState.initialState(),
+      middleware: [appStateMiddleware],
+    );
 
     return StoreProvider<AppState>(
       store: store,
       child: MaterialApp(
-          title: 'Redux Items', theme: ThemeData.dark(), home: MyHomePage()),
+          title: 'Redux Items',
+          theme: ThemeData.dark(),
+          home: StoreBuilder<AppState>(
+            onInit: (store) => store.dispatch(GetItemsAction),
+            builder: (BuildContext ctx, Store<AppState> st) {
+              return MyHomePage(store);
+            },
+          )),
     );
-    // return StoreProvider<AppState>(
-    //   store: ,
-    // );
   }
 }
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key key}) : super(key: key);
+  // const MyHomePage({Key key}) : super(key: key);
+  final DevToolsStore<AppState> store;
+
+  MyHomePage(this.store);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Redux Items'),
+      ),
+      drawer: Container(
+        child: ReduxDevTools(store),
       ),
       body: StoreConnector<AppState, _ViewModel>(
         converter: (Store<AppState> store) => _ViewModel.create(store),
@@ -85,9 +95,6 @@ class ItemListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Container(
-    //     // child: child,
-    //     );
     return ListView(
       children: model.items
           .map((Item item) => ListTile(
@@ -105,13 +112,6 @@ class RemoveItemsButton extends StatelessWidget {
   final _ViewModel model;
 
   const RemoveItemsButton(this.model);
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Container(
-  //     child: child,
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
